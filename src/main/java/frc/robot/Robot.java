@@ -45,6 +45,7 @@ public class Robot extends TimedRobot {
     diagnostics.periodic();
     diagnostics.measureDriveAcc();
     diagnostics.getDriveSpeed();
+    System.out.println(Ultrasonic.getVoltage());
   }
 
   /**

@@ -2,6 +2,10 @@ package frc.robot;
 
 public class Constants {
 
+    //Ultrasonic constants
+    public static double ultrasonicVoltsToDistance = 100;
+    public static int ultrasonicChannel = 0;
+
     //Limelight Constants
     public static double limelightDefault = 0;
     public enum limelightMode {
