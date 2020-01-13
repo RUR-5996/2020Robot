@@ -28,6 +28,11 @@ public class Constants {
     public static final double rightDriveRatio = 0; //ticks per rot
     public static final double driveWheelRadius = 0.1524; //meters
 
+    public static final double turnKP = 0.0;
+    public static final double turnKI = 0.0;
+    public static final double turnKD = 0.0;
+    public static final double turnspeed = 1; //motor output multiplier of turn PID
+
     public static final double autokP = 1.23;
     public static final double autokI = 0; //not being used
     public static final double autokD = 0.001; //minimal difference

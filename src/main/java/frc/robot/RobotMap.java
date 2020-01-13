@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SPI;
+import com.kauailabs.navx.frc.AHRS;
 
 public class RobotMap {
 
@@ -17,6 +19,8 @@ public class RobotMap {
     public static final SpeedControllerGroup leftGroup = new SpeedControllerGroup(leftFrontTalon, leftRearTalon);
     public static final SpeedControllerGroup rightGroup = new SpeedControllerGroup(rightFrontTalon, rightRearTalon);
     public final DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup);
+
+    public final AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
     public static final Joystick leftStick = new Joystick(0);
     public static final Joystick rightStick = new Joystick(1);
