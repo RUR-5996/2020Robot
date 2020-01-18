@@ -43,8 +43,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     diagnostics.periodic();
-    diagnostics.measureDriveAcc();
-    diagnostics.getDriveSpeed();
   }
 
   /**

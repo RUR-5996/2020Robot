@@ -5,9 +5,10 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID;
 
 public class RobotMap {
 
@@ -22,13 +23,12 @@ public class RobotMap {
 
     public final AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
-    public static final Joystick leftStick = new Joystick(0);
-    public static final Joystick rightStick = new Joystick(1);
-    public static final Button buttonL1 = new JoystickButton(leftStick, 1);
-    public static final Button buttonL2 = new JoystickButton(leftStick, 2);
-    public static final Button buttonL3 = new JoystickButton(leftStick, 3);
-    public static final Button buttonL4 = new JoystickButton(leftStick, 4);
-    public static final Button buttonL5 = new JoystickButton(leftStick, 5);
+    public static final XboxController controller = new XboxController(0);
+
+    public static final Button buttonA = new JoystickButton(controller, 0);
+    public static final Button buttonB = new JoystickButton(controller, 1);
+    public static final Button buttonX = new JoystickButton(controller, 2);
+    public static final Button buttonY = new JoystickButton(controller, 3);
 
     private RobotMap() {  
     }
@@ -64,7 +64,15 @@ public class RobotMap {
      * @return double Y axis.
      */
     public double getLeftY() {
-        return -deadzone(leftStick.getY());
+        return -deadzone(controller.getY(GenericHID.Hand.kLeft));
+    }
+
+    /**
+     * Method for accessing X axis of left joystick.
+     * @return double X axis.
+     */
+    public double getLeftX() {
+        return -deadzone(controller.getX(GenericHID.Hand.kLeft));
     }
 
     /**
@@ -72,7 +80,16 @@ public class RobotMap {
      * @return double Y axis.
      */
     public double getRightY() {
-        return -deadzone(rightStick.getY());
+        return -deadzone(controller.getY(GenericHID.Hand.kRight));
     }
+
+    /**
+     * Method for accessing X axis of right joystick.
+     * @return double X axis.
+     */
+    public double getRightX() {
+        return -deadzone(controller.getX(GenericHID.Hand.kRight));
+    }
+
 
 }

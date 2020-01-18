@@ -19,7 +19,7 @@ public class Drive {
     }
 
     public void drive() {
-        robotMap.drive.tankDrive(robotMap.getLeftY(), robotMap.getRightY());
+        robotMap.drive.arcadeDrive(robotMap.getLeftY(), robotMap.getRightX());
     }
 
     //the magic happens here
