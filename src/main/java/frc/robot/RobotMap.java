@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -9,6 +10,7 @@ import edu.wpi.first.wpilibj.SPI;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class RobotMap {
 
@@ -21,6 +23,10 @@ public class RobotMap {
     public static final SpeedControllerGroup rightGroup = new SpeedControllerGroup(rightFrontTalon, rightRearTalon);
     public final DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup);
 
+    public static final WPI_VictorSPX intakeMech = new WPI_VictorSPX(4); //otačí celým intakem
+    public static final WPI_VictorSPX intakeKapradi = new WPI_VictorSPX(5); //otačí kolečka na nabírání míčů
+
+
     public final AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
     public static final XboxController controller = new XboxController(0);
@@ -29,6 +35,9 @@ public class RobotMap {
     public static final Button buttonB = new JoystickButton(controller, 1);
     public static final Button buttonX = new JoystickButton(controller, 2);
     public static final Button buttonY = new JoystickButton(controller, 3);
+
+    public static final DigitalInput mechIsDown = new DigitalInput(0);
+    public static final DigitalInput mechIsUp = new DigitalInput(1);
 
     private RobotMap() {  
     }
