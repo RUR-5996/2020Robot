@@ -71,6 +71,8 @@ public class Robot extends TimedRobot {
    */
   public void teleopPeriodic() {
     drive.drive();
+    intake.spinMech();
+    intake.spinKapradi();
   }
 
   @Override
