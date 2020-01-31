@@ -23,6 +23,7 @@ public class Robot extends TimedRobot {
   public static TransferData transferData;
   public static Limelight limelight;
   public static Intake intake;
+  public static Shooter shooter;
 
   /**
    * Initialization code.
@@ -37,6 +38,7 @@ public class Robot extends TimedRobot {
     transferData = new TransferData();
     limelight.limelightInit();
     intake = new Intake(robotMap);
+    shooter = new Shooter(robotMap);
   }
 
   /**
@@ -73,6 +75,7 @@ public class Robot extends TimedRobot {
     drive.drive();
     intake.spinMech();
     intake.spinKapradi();
+    shooter.shoot();
   }
 
   @Override

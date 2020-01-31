@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 public class RobotMap {
 
     private static RobotMap robotMap;
-    public static final WPI_TalonSRX leftFrontTalon = new WPI_TalonSRX(0);
-    public static final WPI_TalonSRX leftRearTalon = new WPI_TalonSRX(1);
+    public static final WPI_TalonSRX leftFrontTalon = new WPI_TalonSRX(7);
+    public static final WPI_TalonSRX leftRearTalon = new WPI_TalonSRX(8);
     public static final WPI_TalonSRX rightFrontTalon = new WPI_TalonSRX(2);
     public static final WPI_TalonSRX rightRearTalon = new WPI_TalonSRX(3);
     public static final SpeedControllerGroup leftGroup = new SpeedControllerGroup(leftFrontTalon, leftRearTalon);
@@ -25,6 +25,9 @@ public class RobotMap {
 
     public static final WPI_VictorSPX intakeMech = new WPI_VictorSPX(4); //otačí celým intakem
     public static final WPI_VictorSPX intakeKapradi = new WPI_VictorSPX(5); //otačí kolečka na nabírání míčů
+
+    public static final WPI_TalonSRX shooterTop = new WPI_TalonSRX(0);
+    public static final WPI_TalonSRX shooterBottom = new WPI_TalonSRX(1);
 
 
     public final AHRS ahrs = new AHRS(SPI.Port.kMXP);
@@ -35,7 +38,7 @@ public class RobotMap {
     public static final Button buttonB = new JoystickButton(controller, 1);
     public static final Button buttonX = new JoystickButton(controller, 2);
     public static final Button buttonY = new JoystickButton(controller, 3);
-
+   
     public static final DigitalInput mechIsDown = new DigitalInput(0);
     public static final DigitalInput mechIsUp = new DigitalInput(1);
 
@@ -98,6 +101,11 @@ public class RobotMap {
      */
     public double getRightX() {
         return -deadzone(controller.getX(GenericHID.Hand.kRight));
+    }
+
+    public double getLeftTrigger(){
+        return -deadzone(controller.getTriggerAxis(GenericHID.Hand.kLeft));
+
     }
 
 
