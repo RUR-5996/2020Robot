@@ -20,10 +20,18 @@ public class Gyro {
         }
     }
 
+    /**
+     * Getter method for accesing the current angle
+     * @return angle in degrees
+     */
     public static double getAngle() {
         return ahrs.getAngle();
     }
 
+    /**
+     * Method for resetting the default angle on the gyro.
+     * Sets current angle to 0.
+     */
     public static void resetGyro() {
         ahrs.reset();
     }

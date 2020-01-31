@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Timer;
 import com.revrobotics.ColorSensorV3;
 
 public class Diagnostics {
-
+/*
     RobotMap robotMap;
     Timer measure;
     ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
@@ -99,5 +99,5 @@ public class Diagnostics {
         Constants.leftDriveDist = (Constants.leftDriveTicks/Constants.leftDriveRatio) * 2 * Math.PI * Constants.driveWheelRadius;
         Constants.rightDriveDist = (Constants.rightDriveTicks/Constants.rightDriveRatio) * 2 * Math.PI * Constants.driveWheelRadius;
     }
-
+*/
 }
