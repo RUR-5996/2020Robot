@@ -85,9 +85,15 @@ public class Limelight {
      */
     public static void setMode(Constants.limelightMode mode)  {
         switch(mode) {
-            case visionProcessing:
+            case visionProcessingPower:
                 table.getEntry("camMode").setNumber(0);
                 table.getEntry("ledMode").setNumber(3);
+                table.getEntry("pipeline").setNumber(0);
+                break;
+            case visionProcessingLoading:
+                table.getEntry("camMode").setNumber(0);
+                table.getEntry("ledMode").setNumber(3);
+                table.getEntry("pipeline").setNumber(1);
                 break;
             case camera:
                 table.getEntry("camMode").setNumber(1);

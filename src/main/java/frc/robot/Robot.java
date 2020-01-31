@@ -44,7 +44,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     Limelight.limelightPeriodic();
-    System.out.println(Gyro.getAngle());
     //diagnostics.periodic();
     //diagnostics.measureDriveAcc();
     //diagnostics.getDriveSpeed();
@@ -76,7 +75,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     drive.drive();
     if(RobotMap.controller.getYButton()) {
-      Limelight.setMode(Constants.limelightMode.visionProcessing);
+      Limelight.setMode(Constants.limelightMode.visionProcessingPower);
     }
     if(RobotMap.controller.getXButton()) {
       Limelight.setMode(Constants.limelightMode.camera);

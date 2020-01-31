@@ -9,7 +9,8 @@ public class Constants {
     //Limelight Constants
     public static double limelightDefault = 0;
     public enum limelightMode {
-        visionProcessing,
+        visionProcessingPower,
+        visionProcessingLoading,
         camera
     }
 

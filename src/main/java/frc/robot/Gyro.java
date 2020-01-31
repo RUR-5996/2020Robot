@@ -11,6 +11,9 @@ public class Gyro {
     public Gyro() {
     }
 
+    /**
+     * Initialization code for gyro. Runs at start up.
+     */
     public static void gyroInit() {
         try{
             ahrs = new AHRS(SPI.Port.kMXP);
