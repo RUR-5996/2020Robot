@@ -10,10 +10,18 @@ public class Ultrasonic {
 
     }
 
+    /**
+     * Getter method for getting raw voltage from ultrasonic.
+     * @return Double raw voltage from ultrasonic, roughtly between 0 and 6V.
+     */
     public static double getVoltage() {
         return ultrasonic.getVoltage();
     }
 
+    /**
+     * Method for converting voltage to meters.
+     * @return
+     */
     public static double getDistance() {
         return getVoltage() * Constants.ultrasonicVoltsToDistance;
     }

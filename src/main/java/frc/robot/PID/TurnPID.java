@@ -7,23 +7,34 @@ import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class TurnPID {
 
-    PIDController turnController = new PIDController(Constants.turnKP, Constants.turnKI, Constants.turnKD);
-    double setpoint;
+    private PIDController turnController = new PIDController(Constants.turnKP, Constants.turnKI, Constants.turnKD);
+    private double setpoint;
     RobotMap robotMap;
 
     public TurnPID() {
 
     }
 
-    public void setTarget(double setpoint) {
-        this.setpoint = setpoint;
-    }
-
-    public void setupPID() {
+    /**
+     * Method for initializing the PID for turning.
+     */
+    public void turnPIDInit() {
         turnController.setTolerance(2);
         turnController.enableContinuousInput(-180, 180);
     }
 
+    /**
+     * Setter method for setting target degree to turn to.
+     * @param setpoint - double between -180 and 180.
+     */
+    public void setTarget(double setpoint) {
+        this.setpoint = setpoint;
+    }
+
+    /**
+     * Method for getting PID input
+     * @return double for motor speed, between -1 and 1.
+     */
     public double pidGet() {
         double speed = MathUtil.clamp(turnController.calculate(robotMap.ahrs.getAngle(), setpoint), -Constants.turnspeed, Constants.turnspeed);
         return speed;
