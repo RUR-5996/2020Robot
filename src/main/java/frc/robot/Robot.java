@@ -22,6 +22,7 @@ public class Robot extends TimedRobot {
   public static Diagnostics diagnostics;
   public static TransferData transferData;
   public static Limelight limelight;
+  public static Gyro gyro;
 
   /**
    * Initialization code.
@@ -35,6 +36,7 @@ public class Robot extends TimedRobot {
     diagnostics = new Diagnostics(robotMap);
     transferData = new TransferData();
     limelight.limelightInit();
+    gyro.gyroInit();
   }
 
   /**
