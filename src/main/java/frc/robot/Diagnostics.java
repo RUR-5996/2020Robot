@@ -1,12 +1,16 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Timer;
+import com.revrobotics.ColorSensorV3;
 
 public class Diagnostics {
 
     RobotMap robotMap;
     Timer measure;
+    ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+    String color = "";
 
     public Diagnostics(RobotMap robotMap) {
         this.robotMap = robotMap;
@@ -17,6 +21,7 @@ public class Diagnostics {
         SmartDashboard.putNumber("right drive ticks", Constants.rightDriveTicks);
         SmartDashboard.putNumber("left drive distance", Constants.leftDriveDist);
         SmartDashboard.putNumber("right drive distance", Constants.rightDriveDist);
+        SmartDashboard.putString("color sensor", color);
     }
 
     public void periodic() {
@@ -25,15 +30,15 @@ public class Diagnostics {
         send();
     }
 
-    public void getDriveSpeed() {
+    public void getDriveSpeed() { // toto neberte v úvahu, poutze pro testovací účely
         boolean timer = false;
         double measureTime = 0;
         resetDriveEncoders();
-        if(robotMap.buttonL5.get()&&!timer) {
+        if(robotMap.buttonX.get()&&!timer) {
             timer = true;
             measure.start();
         }
-        if(robotMap.buttonL5.get()&&timer&&measure.get() >= 0.25) {
+        if(robotMap.buttonX.get()&&timer&&measure.get() >= 0.25) {
             timer = false;
             measureTime = measure.get();
             measure.reset();
@@ -47,11 +52,11 @@ public class Diagnostics {
 
     }
 
-    public void measureDriveAcc() {
+    public void measureDriveAcc() { // toto neberte v úvahu, poutze pro testovací účely
         resetDriveEncoders();
         boolean timer = false;
         double measureTime;
-        if(robotMap.buttonL2.get()&&!timer) {
+        if(robotMap.buttonY.get()&&!timer) {
             timer = true;
             measure.start();
         }
@@ -65,6 +70,18 @@ public class Diagnostics {
             double accR = Constants.rightDriveDist / (measureTime * measureTime);
             SmartDashboard.putNumber("acceleration L", accL);
             SmartDashboard.putNumber("acceleration R", accR);
+        }
+    }
+
+    public void getColor() {
+        if(colorSensor.getColor().toString().substring(37, 38).equals("4")) {
+            color = "blue";
+        } else if(colorSensor.getColor().toString().substring(37, 38).equals("6")) {
+            color = "green";
+        } else if(colorSensor.getColor().toString().substring(37, 38).equals("c")) {
+            color = "red";
+        } else if(colorSensor.getColor().toString().substring(37, 38).equals("9")) {
+            color = "yellow";
         }
     }
 
