@@ -9,6 +9,8 @@ public class Constants {
         camera
     }
 
+    public static double shooterSpeed = 0.75;
+
     //Encoder constants
     public static double leftDriveTicks = 0;
     public static double rightDriveTicks = 0;

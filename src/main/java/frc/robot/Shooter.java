@@ -13,12 +13,20 @@ public class Shooter {
         robotMap.shooterTop.set(-robotMap.getLeftTrigger());
         robotMap.shooterBottom.set(-robotMap.getLeftTrigger());
 
-        if(robotMap.controller.getBumper(GenericHID.Hand.kLeft)){
+        if(Math.abs(robotMap.getLeftTrigger()) >= 0.75) {
+            robotMap.shooterTop.set(Constants.shooterSpeed);
+            robotMap.shooterBottom.set(Constants.shooterSpeed);
+        } else {
+            robotMap.shooterTop.set(0);
+            robotMap.shooterTop.set(0);
+        }
+
+        /*if(robotMap.controller.getBumper(GenericHID.Hand.kLeft)){
             if(shooting == false){
                 shooting = true;
                
-                robotMap.shooterTop.set(1);
-                robotMap.shooterBottom.set(1);
+                robotMap.shooterTop.set(Constants.shooterSpeed);
+                robotMap.shooterBottom.set(Constants.shooterSpeed);
 
 
 
@@ -29,7 +37,7 @@ public class Shooter {
                 robotMap.shooterBottom.set(0);
             }
         
-        }
+        }*/
     }
 
 }

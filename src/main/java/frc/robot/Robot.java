@@ -21,7 +21,6 @@ public class Robot extends TimedRobot {
   public static Drive drive;
   public static Diagnostics diagnostics;
   public static TransferData transferData;
-  public static Limelight limelight;
   public static Intake intake;
   public static Shooter shooter;
 
@@ -32,11 +31,11 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     robotMap = RobotMap.getRobotMap();
-    limelight = Limelight.getLimelight();
+    //limelight = Limelight.getLimelight();
     drive = new Drive(robotMap);
     diagnostics = new Diagnostics(robotMap);
     transferData = new TransferData();
-    limelight.limelightInit();
+    //limelight.limelightInit();
     intake = new Intake(robotMap);
     shooter = new Shooter(robotMap);
   }

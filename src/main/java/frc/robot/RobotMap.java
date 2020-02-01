@@ -103,9 +103,13 @@ public class RobotMap {
         return -deadzone(controller.getX(GenericHID.Hand.kRight));
     }
 
-    public double getLeftTrigger(){
+    public double getLeftTrigger() {
         return -deadzone(controller.getTriggerAxis(GenericHID.Hand.kLeft));
 
+    }
+
+    public double getPOV() {
+        return controller.getPOV();
     }
 
 

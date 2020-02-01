@@ -8,7 +8,7 @@ import com.revrobotics.ColorSensorV3;
 public class Diagnostics {
 
     RobotMap robotMap;
-    Timer measure;
+    Timer measure, pov;
     ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
     String color = "";
 
@@ -22,11 +22,13 @@ public class Diagnostics {
         SmartDashboard.putNumber("left drive distance", Constants.leftDriveDist);
         SmartDashboard.putNumber("right drive distance", Constants.rightDriveDist);
         SmartDashboard.putString("color sensor", color);
+        SmartDashboard.putNumber("shooter speed", Constants.shooterSpeed);
     }
 
     public void periodic() {
         getDriveTicks();
         calcDriveDist();
+        //setShooterSpeed();
         send();
     }
 
@@ -98,6 +100,25 @@ public class Diagnostics {
     public void calcDriveDist() {
         Constants.leftDriveDist = (Constants.leftDriveTicks/Constants.leftDriveRatio) * 2 * Math.PI * Constants.driveWheelRadius;
         Constants.rightDriveDist = (Constants.rightDriveTicks/Constants.rightDriveRatio) * 2 * Math.PI * Constants.driveWheelRadius;
+    }
+
+    public void setShooterSpeed() {
+        boolean released = true;
+        if(robotMap.getPOV() == 0 && released) {
+            pov.start();
+            released = false;
+            Constants.shooterSpeed += 0.05;
+        }
+        if(robotMap.getPOV() == 180 && released) {
+            pov.start();
+            released = false;
+            Constants.shooterSpeed -= 0.05;
+        }
+        if(pov.get() >= 0.75) {
+            released = true;
+            pov.reset();
+            pov.stop();
+        }
     }
 
 }
