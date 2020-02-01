@@ -21,7 +21,6 @@ public class Robot extends TimedRobot {
   public static Drive drive;
   public static Diagnostics diagnostics;
   public static TransferData transferData;
-  public static Limelight limelight;
 
   /**
    * Initialization code.
@@ -30,11 +29,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     robotMap = RobotMap.getRobotMap();
-    limelight = Limelight.getLimelight();
     drive = new Drive(robotMap);
     diagnostics = new Diagnostics(robotMap);
     transferData = new TransferData();
-    limelight.limelightInit();
   }
 
   /**

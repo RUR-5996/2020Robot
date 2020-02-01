@@ -3,11 +3,12 @@ package frc.robot;
 public class Constants {
 
     //Limelight Constants
-    public static double limelightDefault = 0;
     public enum limelightMode {
         visionProcessing,
         camera
     }
+
+    public static double ballCount = 3;
 
     //Encoder constants
     public static double leftDriveTicks = 0;
@@ -15,6 +16,20 @@ public class Constants {
     public static double leftDriveDist = 0;
     public static double rightDriveDist = 0;
     
+    //ultrasonic constants
+    public static double ultrasonicVoltsToDistance = 0.976; // volts/meter
+
+    //limelight values
+    public static double tx = 0;
+    public static double ty = 0;
+    public static double ta = 0;
+    public static double tv = 0;
+    public static double limelightPipeline;
+
+    public static double intakeUltraDist = 0;
+    public static double shooterUltraDist = 0;
+
+    //autonomous drive stuff
     public static double[] leftPos = {};
     public static double[] leftVel = {};
     public static double[] leftAcc = {};
@@ -27,6 +42,8 @@ public class Constants {
     public static final double leftDriveRatio = 0; //ticks per rot
     public static final double rightDriveRatio = 0; //ticks per rot
     public static final double driveWheelRadius = 0.1524; //meters
+
+    public static final String limelightName = "limelight-rur";
 
     public static final double turnKP = 0.0;
     public static final double turnKI = 0.0;
