@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.Sensors;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;

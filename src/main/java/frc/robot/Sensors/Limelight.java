@@ -1,8 +1,9 @@
-package frc.robot;
+package frc.robot.Sensors;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.Constants;
 
 /**
  * Class for Limelight.

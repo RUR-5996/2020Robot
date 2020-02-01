@@ -1,7 +1,8 @@
-package frc.robot;
+package frc.robot.Sensors;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 
 public class Ultrasonic {
 
@@ -20,12 +21,15 @@ public class Ultrasonic {
 
     /**
      * Method for converting voltage to meters.
-     * @return
+     * @return double distance in meters.
      */
     public static double getDistance() {
         return getVoltage() * Constants.ultrasonicVoltsToDistance;
     }
 
+    /**
+     * Method for reporting to smart dashboard.
+     */
     public static void report() {
         SmartDashboard.putNumber("Ultrasonic Distance", getDistance());
         SmartDashboard.putNumber("Ultrasonic Voltage", getVoltage());
