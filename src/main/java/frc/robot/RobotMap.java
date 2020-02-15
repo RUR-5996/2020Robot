@@ -2,6 +2,7 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -17,6 +18,9 @@ public class RobotMap {
     public static final WPI_TalonSRX leftRearTalon = new WPI_TalonSRX(1);
     public static final WPI_TalonSRX rightFrontTalon = new WPI_TalonSRX(2);
     public static final WPI_TalonSRX rightRearTalon = new WPI_TalonSRX(3);
+    public static final Talon shooterTop = new Talon(4);
+    public static final Talon shooterBottom = new Talon(5);
+    public static final SpeedControllerGroup shooterGroup = new SpeedControllerGroup(shooterTop, shooterBottom);
     public static final SpeedControllerGroup leftGroup = new SpeedControllerGroup(leftFrontTalon, leftRearTalon);
     public static final SpeedControllerGroup rightGroup = new SpeedControllerGroup(rightFrontTalon, rightRearTalon);
     public final DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup);

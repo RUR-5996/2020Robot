@@ -8,8 +8,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.robot.Sensors.Gyro;
-import frc.robot.Sensors.Limelight;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,8 +21,6 @@ public class Robot extends TimedRobot {
   public static Drive drive;
   public static Diagnostics diagnostics;
   public static TransferData transferData;
-  //public static Limelight limelight;
-  public static Gyro gyro;
 
   /**
    * Initialization code.
@@ -36,8 +32,8 @@ public class Robot extends TimedRobot {
     drive = new Drive(robotMap);
     //diagnostics = new Diagnostics(robotMap);
     transferData = new TransferData();
-    Limelight.limelightInit();
-    Gyro.gyroInit();
+    Sensors.limelightInit();
+    Sensors.gyroInit();
   }
 
   /**
@@ -45,7 +41,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    Limelight.limelightPeriodic();
+    Sensors.periodic();
     //diagnostics.periodic();
     //diagnostics.measureDriveAcc();
     //diagnostics.getDriveSpeed();
@@ -77,13 +73,13 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     drive.drive();
     if(RobotMap.controller.getYButton()) {
-      Limelight.setMode(Constants.limelightMode.visionProcessingPower);
+      Sensors.setLimelightMode(Constants.limelightMode.visionProcessingPower);
     }
     if(RobotMap.controller.getXButton()) {
-      Limelight.setMode(Constants.limelightMode.camera);
+      Sensors.setLimelightMode(Constants.limelightMode.camera);
     }
     if(RobotMap.controller.getAButton()){
-      Gyro.resetGyro();
+      Sensors.resetGyro();
     }
   }
 
