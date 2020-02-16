@@ -21,7 +21,6 @@ public class Robot extends TimedRobot {
   public static Drive drive;
   public static Diagnostics diagnostics;
   public static TransferData transferData;
-  public static Limelight limelight;
 
   /**
    * Initialization code.
@@ -30,11 +29,11 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     robotMap = RobotMap.getRobotMap();
-    limelight = Limelight.getLimelight();
     drive = new Drive(robotMap);
-    diagnostics = new Diagnostics(robotMap);
+    //diagnostics = new Diagnostics(robotMap);
     transferData = new TransferData();
-    limelight.limelightInit();
+    Sensors.limelightInit();
+    Sensors.gyroInit();
   }
 
   /**
@@ -42,7 +41,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    diagnostics.periodic();
+    Sensors.periodic();
+    //diagnostics.periodic();
+    //diagnostics.measureDriveAcc();
+    //diagnostics.getDriveSpeed();
+
   }
 
   /**
@@ -50,7 +53,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    diagnostics.resetDriveEncoders();
+    //diagnostics.resetDriveEncoders();
     transferData.transfer();
     drive.setupAuto();
   }
@@ -69,6 +72,15 @@ public class Robot extends TimedRobot {
    */
   public void teleopPeriodic() {
     drive.drive();
+    if(RobotMap.controller.getYButton()) {
+      Sensors.setLimelightMode(Constants.limelightMode.visionProcessingPower);
+    }
+    if(RobotMap.controller.getXButton()) {
+      Sensors.setLimelightMode(Constants.limelightMode.camera);
+    }
+    if(RobotMap.controller.getAButton()){
+      Sensors.resetGyro();
+    }
   }
 
   @Override
