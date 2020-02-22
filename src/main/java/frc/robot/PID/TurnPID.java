@@ -7,12 +7,12 @@ import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class TurnPID {
 
-    private PIDController turnController = new PIDController(Constants.turnKP, Constants.turnKI, Constants.turnKD);
-    private double setpoint;
     RobotMap robotMap;
+    private double setpoint;
+    private PIDController turnController = new PIDController(Constants.turnKP, Constants.turnKI, Constants.turnKD);
 
-    public TurnPID() {
-
+    public TurnPID(RobotMap robotMap) {
+        this.robotMap = robotMap;
     }
 
     /**
@@ -36,7 +36,7 @@ public class TurnPID {
      * @return double for motor speed, between -1 and 1.
      */
     public double pidGet() {
-        double speed = MathUtil.clamp(turnController.calculate(robotMap.ahrs.getAngle(), setpoint), -Constants.turnspeed, Constants.turnspeed);
+        double speed = MathUtil.clamp(turnController.calculate(robotMap.ahrs.getAngle(), setpoint), -Constants.turnSpeed, Constants.turnSpeed);
         return speed;
     }
 

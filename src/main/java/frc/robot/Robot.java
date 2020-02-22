@@ -19,6 +19,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 public class Robot extends TimedRobot {
   public static RobotMap robotMap;
   public static Drive drive;
+  public static Shooter shooter;
+  public static Intake intake;
+  public static Sensors sensors;
   public static Diagnostics diagnostics;
   public static TransferData transferData;
 
@@ -28,12 +31,21 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+
     robotMap = RobotMap.getRobotMap();
+
     drive = new Drive(robotMap);
-    //diagnostics = new Diagnostics(robotMap);
+
+    intake = new Intake(robotMap);
+
+    shooter = new Shooter(robotMap);
+
+    sensors = new Sensors(robotMap);
+
     transferData = new TransferData();
-    Sensors.limelightInit();
-    Sensors.gyroInit();
+
+    sensors.gyroInit();
+
   }
 
   /**
@@ -41,10 +53,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    Sensors.periodic();
-    //diagnostics.periodic();
-    //diagnostics.measureDriveAcc();
-    //diagnostics.getDriveSpeed();
+
+    sensors.periodic();
 
   }
 
@@ -53,9 +63,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    //diagnostics.resetDriveEncoders();
-    transferData.transfer();
-    drive.setupAuto();
+    //transferData.transfer();
+    //drive.setupAuto();
   }
 
   /**
@@ -63,24 +72,22 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    drive.autoDrive();
+    //drive.autoDrive();
+    
   }
 
-  @Override
   /**
    * Periodic code, runs during teleop.
    */
+  @Override
   public void teleopPeriodic() {
-    drive.drive();
-    if(RobotMap.controller.getYButton()) {
-      Sensors.setLimelightMode(Constants.limelightMode.visionProcessingPower);
-    }
-    if(RobotMap.controller.getXButton()) {
-      Sensors.setLimelightMode(Constants.limelightMode.camera);
-    }
-    if(RobotMap.controller.getAButton()){
-      Sensors.resetGyro();
-    }
+
+    drive.periodic();
+
+    shooter.periodic();
+
+    intake.periodic();
+    
   }
 
   @Override

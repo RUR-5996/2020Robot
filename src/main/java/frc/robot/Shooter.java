@@ -13,15 +13,52 @@ import frc.robot.RobotMap;
  */
 public class Shooter {
 
-    public Shooter() {
+    RobotMap robotMap;
+
+    public Shooter(RobotMap robotMap) {
+        this.robotMap = robotMap;
+    }
+
+    /**
+     * Periodic function running all the commands based on joystick input
+     */
+    public void periodic() {
+
+        if(robotMap.getLeftTrigger() >= 0.75) {
+            shoot();
+        } else if(robotMap.leftBumper.get()) {
+            releaseBall();
+        } else {
+            stop();
+        }
 
     }
 
+    /**
+     * Shoots the ball
+     */
     public void shoot() {
-        RobotMap.shooterGroup.set(0.6);
+        robotMap.shooterGroup.set(Constants.shooterSpeed);
     }
 
+    /**
+     * Spins shooter at full speed to release a stuck ball
+     */
+    public void releaseBall() {
+        robotMap.shooterGroup.set(1);
+    }
+
+    /**
+     * stops all motion
+     */
     public void stop() {
-        RobotMap.shooterGroup.set(0);
+        robotMap.shooterGroup.set(0);
+    }
+
+    /**
+     * Sets shooter speed according to distance from target
+     */
+    public void setShooterSpeed() {
+        Constants.shooterSpeed = Constants.distanceLL * Constants.shooterSpeedRatio;
     }
 }
