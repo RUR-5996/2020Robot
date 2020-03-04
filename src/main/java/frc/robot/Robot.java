@@ -21,6 +21,7 @@ public class Robot extends TimedRobot {
   public static Drive drive;
   public static Shooter shooter;
   public static Intake intake;
+  public static Climber climber;
   public static Sensors sensors;
   public static Diagnostics diagnostics;
   public static TransferData transferData;
@@ -34,17 +35,21 @@ public class Robot extends TimedRobot {
 
     robotMap = RobotMap.getRobotMap();
 
-    drive = new Drive(robotMap);
+    drive = new Drive();
 
-    intake = new Intake(robotMap);
+    intake = new Intake();
 
-    shooter = new Shooter(robotMap);
+    climber = new Climber();
 
-    sensors = new Sensors(robotMap);
+    shooter = new Shooter();
+
+    sensors = new Sensors();
 
     transferData = new TransferData();
 
     sensors.gyroInit();
+
+    sensors.resetEncoders();
 
   }
 
@@ -63,8 +68,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    //transferData.transfer();
-    //drive.setupAuto();
+    
+    sensors.resetEncoders();
+
   }
 
   /**
@@ -72,7 +78,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    //drive.autoDrive();
+
+
     
   }
 
@@ -87,6 +94,8 @@ public class Robot extends TimedRobot {
     shooter.periodic();
 
     intake.periodic();
+
+    climber.periodic();
     
   }
 

@@ -12,11 +12,17 @@ public class Drive {
     LimelightTurnPID limelightTurn;
     double errorL, errorR, outputL, outputR, lastErrorL, lastErrorR;
 
-    public Drive(RobotMap robotMap) {
-        this.robotMap = robotMap;
+    public Drive() {
+
+        robotMap = RobotMap.getRobotMap();
+
         limelightTurn = new LimelightTurnPID();
+
+        limelightTurn.LimelightTurnPIDInit();
+
         buttonPress =  new Timer();
         buttonPress.start();
+
     }
 
     /**
@@ -26,18 +32,38 @@ public class Drive {
 
         setDriveMode();
 
-        if(Constants.driveMode.equals("manual")) {
+        if((Diagnostics.leftIntakeDist <= 40 || Diagnostics.rightIntakeDist <= 40) && Diagnostics.intakeDown) { //test if the resolution is good enough to see 20cm
 
-            if(robotMap.leftJoystick.get() || robotMap.rightJoystick.get()) {
-                fasterDrive();
+            if(Diagnostics.driveMode.equals("manual")) {
+
+                if(robotMap.leftJoystick.get() || robotMap.rightJoystick.get()) {
+                    intakeProtectFasterDrive();
+                } else {
+                    intakeProtectDrive();
+                }
+
+            } else if (Diagnostics.driveMode.equals("assisted")) {
+                intakeProtectAssistedDrive();
             } else {
-                drive();
+                System.out.println("Drive mode error");
             }
 
-        } else if (Constants.driveMode.equals("assisted")) {
-            assistedDrive();
         } else {
-            System.out.println("Drive mode error");
+
+            if(Diagnostics.driveMode.equals("manual")) {
+
+                if(robotMap.leftJoystick.get() || robotMap.rightJoystick.get()) {
+                    fasterDrive();
+                } else {
+                    drive();
+                }
+
+            } else if (Diagnostics.driveMode.equals("assisted")) {
+                assistedDrive();
+            } else {
+                System.out.println("Drive mode error");
+            }
+
         }
         
     }
@@ -47,18 +73,19 @@ public class Drive {
      */
     public void setDriveMode() {
 
-        if(robotMap.buttonB.get() && buttonPress.get() >= 0.25) {
+        if(( robotMap.buttonB.get() || robotMap.logitechFour.get() || robotMap.buttonX.get() ) && buttonPress.get() >= 0.25) {
 
-            if(Constants.driveMode.equals("manual")) {
-                Constants.driveMode = "assisted";
-                //sensors.setLimelightMode(Constants.limelightMode.visionProcessingPower);
+            if(Diagnostics.driveMode.equals("manual")) {
+                Diagnostics.driveMode = "assisted";
                 limelightTurn.setTarget(0);
+                //Robot.climber.aim();
             } else {
-                Constants.driveMode = "manual";
-                //sensors.setLimelightMode(Constants.limelightMode.camera);
+                Diagnostics.driveMode = "manual";
+                //Robot.climber.aimReset();
             }
 
             buttonPress.reset();
+            buttonPress.start();
 
         }
 
@@ -78,12 +105,39 @@ public class Drive {
         robotMap.drive.arcadeDrive(0.8 * robotMap.getLeftY(), 0.8 * robotMap.getRightX()); //Not more than 0.85!
     }
 
+    public void intakeProtectDrive() {
+        if(robotMap.getLeftY() > 0) {
+            robotMap.drive.arcadeDrive(0, 0.65 * robotMap.getRightX());
+        } else {
+            robotMap.drive.arcadeDrive(0.65 * robotMap.getLeftY(), 0.65 * robotMap.getRightX());
+        }
+    }
+
+    public void intakeProtectFasterDrive() {
+        if(robotMap.getLeftY() > 0) {
+            robotMap.drive.arcadeDrive(0, 0.8 * robotMap.getRightX());
+        } else {
+            robotMap.drive.arcadeDrive(0.8 * robotMap.getLeftY(), 0.8 * robotMap.getRightX());
+        }
+    }
+
+    public void intakeProtectAssistedDrive() {
+        if(robotMap.getLeftY() > 0) {
+            robotMap.drive.arcadeDrive(0, -limelightTurn.pidGet());
+        } else {
+            robotMap.drive.arcadeDrive(0.65 * robotMap.getLeftY(), -limelightTurn.pidGet());
+        }
+    }
+
     /**
      * vision-assisted drive: Driver can operate fw/bw, turning is done by LL
      */
     public void assistedDrive() {
-        robotMap.drive.arcadeDrive(0.65 * robotMap.getLeftY(), limelightTurn.pidGet());
+        robotMap.drive.arcadeDrive(0.65 * robotMap.getLeftY(), -limelightTurn.pidGet());
     }
+
+
+
 
     //the magic happens here - autonomous driving, will be commented later after testing
 
@@ -95,14 +149,14 @@ public class Drive {
 
     public void autoDrive() { 
 
-        if(autoStep < Constants.leftPos.length)
+        if(autoStep < Diagnostics.leftPos.length)
         {
-            errorL = Constants.leftPos[autoStep] - Constants.leftDriveDist;
-            outputL = Constants.autokP * errorL + Constants.autokD * ((errorL - lastErrorL) / Constants.leftVel[autoStep]) + (Constants.autokV * Constants.leftVel[autoStep] + Constants.autokA * Constants.leftAcc[autoStep]);
+            errorL = Diagnostics.leftPos[autoStep] - Diagnostics.leftDriveDist;
+            outputL = Constants.autokP * errorL + Constants.autokD * ((errorL - lastErrorL) / Diagnostics.leftVel[autoStep]) + (Constants.autokV * Diagnostics.leftVel[autoStep] + Constants.autokA * Diagnostics.leftAcc[autoStep]);
             lastErrorL = errorL;
 
-            errorR = Constants.rightPos[autoStep] - Constants.rightDriveDist;
-            outputR = Constants.autokP * errorR + Constants.autokD * ((errorR - lastErrorR) / Constants.rightVel[autoStep]) + (Constants.autokV * Constants.rightVel[autoStep] + Constants.autokA * Constants.rightAcc[autoStep]);
+            errorR = Diagnostics.rightPos[autoStep] - Diagnostics.rightDriveDist;
+            outputR = Constants.autokP * errorR + Constants.autokD * ((errorR - lastErrorR) / Diagnostics.rightVel[autoStep]) + (Constants.autokV * Diagnostics.rightVel[autoStep] + Constants.autokA * Diagnostics.rightAcc[autoStep]);
             lastErrorR = errorR;
             autoStep++;
 
@@ -115,21 +169,22 @@ public class Drive {
             outputL = 0;
             outputR = 0;
         }
+        
         robotMap.drive.tankDrive(outputL, outputR);
 
     }
 
     public void autoDriveBack() {
 
-        if(autoStep < Constants.leftPos.length)
+        if(autoStep < Diagnostics.leftPos.length)
         {
-            errorL = Constants.leftPos[autoStep] - Constants.leftDriveDist;
-            outputL = Constants.autokP * errorL + Constants.autokD * ((errorL - lastErrorL) / Constants.leftVel[autoStep]) + (Constants.autokV * Constants.leftVel[autoStep] + Constants.autokA * Constants.leftAcc[autoStep]);
+            errorL = Diagnostics.leftPos[autoStep] - Diagnostics.leftDriveDist;
+            outputL = Constants.autokP * errorL + Constants.autokD * ((errorL - lastErrorL) / Diagnostics.leftVel[autoStep]) + (Constants.autokV * Diagnostics.leftVel[autoStep] + Constants.autokA * Diagnostics.leftAcc[autoStep]);
             outputL = -outputL;
             lastErrorL = errorL;
 
-            errorR = Constants.rightPos[autoStep] - Constants.rightDriveDist;
-            outputR = Constants.autokP * errorR + Constants.autokD * ((errorR - lastErrorR) / Constants.rightVel[autoStep]) + (Constants.autokV * Constants.rightVel[autoStep] + Constants.autokA * Constants.rightAcc[autoStep]);
+            errorR = Diagnostics.rightPos[autoStep] - Diagnostics.rightDriveDist;
+            outputR = Constants.autokP * errorR + Constants.autokD * ((errorR - lastErrorR) / Diagnostics.rightVel[autoStep]) + (Constants.autokV * Diagnostics.rightVel[autoStep] + Constants.autokA * Diagnostics.rightAcc[autoStep]);
             outputR = -outputR;
             lastErrorR = errorR;
             autoStep++;

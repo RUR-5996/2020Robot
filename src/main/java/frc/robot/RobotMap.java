@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.SPI;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Servo;
 
@@ -27,20 +30,24 @@ public class RobotMap {
     public static final SpeedControllerGroup rightGroup = new SpeedControllerGroup(rightFrontVictor, rightBackVictor, rightCenterVictor);
     public static final DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup);
 
-    public static final WPI_TalonSRX climberLeft = new WPI_TalonSRX(3);
-    public static final WPI_TalonSRX climberRight = new WPI_TalonSRX(4);
+    public static final WPI_TalonSRX climberLeft = new WPI_TalonSRX(4);
+    public static final WPI_TalonSRX climberRight = new WPI_TalonSRX(3);
 
     public static final WPI_VictorSPX intakeVictor = new WPI_VictorSPX(6);
-    public static final Servo intakeLock = new Servo(0);
+    public static final Servo intakeLock = new Servo(1);
+    public static final DigitalInput intakeCheck = new DigitalInput(0);
     
     public static final WPI_TalonSRX shooterTop = new WPI_TalonSRX(1);
     public static final WPI_TalonSRX shooterBottom = new WPI_TalonSRX(2);
     public static final SpeedControllerGroup shooterGroup = new SpeedControllerGroup(shooterTop, shooterBottom);
-    public static final Servo ballStop = new Servo(1);
+    public static final Servo ballStop = new Servo(0);
+
+    public static final AnalogInput touchlessAim = new AnalogInput(3); //change port
 
     public final AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
     public static final XboxController controller = new XboxController(0);
+    public static final Joystick logitech = new Joystick(1);
 
     public static final Button buttonA = new JoystickButton(controller, 1);
     public static final Button buttonB = new JoystickButton(controller, 2);
@@ -52,6 +59,11 @@ public class RobotMap {
     public static final Button start = new JoystickButton(controller, 8);
     public static final Button leftJoystick = new JoystickButton(controller, 9);
     public static final Button rightJoystick = new JoystickButton(controller, 10);
+
+    public static final Button logitechTrigger = new JoystickButton(logitech, 1);
+    public static final Button logitechTwo = new JoystickButton(logitech, 2);
+    public static final Button logitechFour = new JoystickButton(logitech, 4);
+    public static final Button logitechFive = new JoystickButton(logitech, 5);
 
     private RobotMap() {  
         setupDrive(leftFrontVictor);
@@ -65,6 +77,9 @@ public class RobotMap {
 
         setupShooter(shooterBottom);
         setupShooter(shooterTop);
+
+        setupClimber(climberLeft);
+        setupClimber(climberRight);
     }
 
     private void setupShooter(WPI_TalonSRX talon) {
@@ -90,7 +105,7 @@ public class RobotMap {
         victor.configPeakOutputReverse(-1, Constants.timeoutMs);
         victor.configAllowableClosedloopError(0, 0, Constants.timeoutMs);
         victor.configNeutralDeadband(0.05, Constants.timeoutMs);
-        victor.setNeutralMode(NeutralMode.Coast);
+        victor.setNeutralMode(NeutralMode.Brake);
     }
 
     private void setupDrive(WPI_VictorSPX driveVictor) {
@@ -102,6 +117,22 @@ public class RobotMap {
         driveVictor.configNeutralDeadband(0.05, Constants.timeoutMs);
         driveVictor.configOpenloopRamp(0.25);
         driveVictor.setNeutralMode(NeutralMode.Brake);
+    }
+
+    private void setupClimber(WPI_TalonSRX talon) {
+        talon.configNominalOutputForward(0, Constants.timeoutMs);
+        talon.configNominalOutputReverse(0, Constants.timeoutMs);
+        talon.configPeakOutputForward(1, Constants.timeoutMs);
+        talon.configPeakOutputReverse(-1, Constants.timeoutMs);
+        talon.configAllowableClosedloopError(0, 0, Constants.timeoutMs);
+        talon.configNeutralDeadband(0.05, Constants.timeoutMs);
+        talon.setNeutralMode(NeutralMode.Brake);
+        talon.enableCurrentLimit(true);
+        talon.configContinuousCurrentLimit(30, Constants.timeoutMs);
+        talon.configPeakCurrentLimit(30, Constants.timeoutMs);
+        talon.configPeakCurrentDuration(200, Constants.timeoutMs);
+        talon.configOpenloopRamp(0.25);
+        talon.configOpenloopRamp(0.25);
     }
 
     /**
@@ -176,6 +207,14 @@ public class RobotMap {
      */
     public double getLeftTrigger() {
         return Math.abs(deadzone(controller.getTriggerAxis(GenericHID.Hand.kLeft)));
+    }
+
+    public double getLogitechY() {
+        return -deadzone(logitech.getY());
+    }
+
+    public double getLogitechX() {
+        return deadzone(logitech.getX());
     }
 
 }

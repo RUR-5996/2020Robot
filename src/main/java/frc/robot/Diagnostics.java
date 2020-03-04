@@ -1,103 +1,49 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.Timer;
-import com.revrobotics.ColorSensorV3;
-
 public class Diagnostics {
-/*
-    RobotMap robotMap;
-    Timer measure;
-    ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
-    String color = "";
 
-    public Diagnostics(RobotMap robotMap) {
-        this.robotMap = robotMap;
-    }
+    //Intake
+    public static boolean intakeDown = false;
 
-    public void send() {
-        SmartDashboard.putNumber("left drive ticks", Constants.leftDriveTicks);
-        SmartDashboard.putNumber("right drive ticks", Constants.rightDriveTicks);
-        SmartDashboard.putNumber("left drive distance", Constants.leftDriveDist);
-        SmartDashboard.putNumber("right drive distance", Constants.rightDriveDist);
-        SmartDashboard.putString("color sensor", color);
-    }
+    //LimeLight
+    public static double targets = 0;
+    public static double xOffset = 0;
+    public static double yOffset = 0;
+    public static double area = 0;
+    public static double skew = 0;
+    public static double distanceLL = 0;
 
-    public void periodic() {
-        getDriveTicks();
-        calcDriveDist();
-        send();
-    }
+    //Shooter
+    public static double shooterSpeed = 0.60;
 
-    public void getDriveSpeed() { // toto neberte v úvahu, poutze pro testovací účely
-        boolean timer = false;
-        double measureTime = 0;
-        resetDriveEncoders();
-        if(robotMap.buttonX.get()&&!timer) {
-            timer = true;
-            measure.start();
-        }
-        if(robotMap.buttonX.get()&&timer&&measure.get() >= 0.25) {
-            timer = false;
-            measureTime = measure.get();
-            measure.reset();
-            measure.stop();
-            
-            double velL = Constants.leftDriveDist / measureTime;
-            double velR = Constants.rightDriveDist / measureTime;
-            SmartDashboard.putNumber("velocity L", velL);
-            SmartDashboard.putNumber("velocity R", velR);
-        }
+    //Drive
+    public static double leftDriveTicks = 0;
+    public static double rightDriveTicks = 0;
+    public static double leftDriveDist = 0;
+    public static double rightDriveDist = 0;
+    public static String driveMode = "manual"; //manual or assisted
 
-    }
+    //Climber
+    public static boolean climberUp = false;
+    public static boolean climberDown = true;
+    public static boolean climberAiming = false;
 
-    public void measureDriveAcc() { // toto neberte v úvahu, poutze pro testovací účely
-        resetDriveEncoders();
-        boolean timer = false;
-        double measureTime;
-        if(robotMap.buttonY.get()&&!timer) {
-            timer = true;
-            measure.start();
-        }
-        if(timer&&measure.get() >= 0.75) {
-            timer = false;
-            measureTime = measure.get();
-            measure.reset();
-            measure.stop();
+    //Color sensor
+    public static String color = "";
 
-            double accL = Constants.leftDriveDist / (measureTime * measureTime);
-            double accR = Constants.rightDriveDist / (measureTime * measureTime);
-            SmartDashboard.putNumber("acceleration L", accL);
-            SmartDashboard.putNumber("acceleration R", accR);
-        }
-    }
+    //Ultrasonic
+    public static double leftIntakeDist = 0; //will be moved to Diagnostics
+    public static double rightIntakeDist = 0; //will be moved to Diagnostics
 
-    public void getColor() {
-        if(colorSensor.getColor().toString().substring(37, 38).equals("4")) {
-            color = "blue";
-        } else if(colorSensor.getColor().toString().substring(37, 38).equals("6")) {
-            color = "green";
-        } else if(colorSensor.getColor().toString().substring(37, 38).equals("c")) {
-            color = "red";
-        } else if(colorSensor.getColor().toString().substring(37, 38).equals("9")) {
-            color = "yellow";
-        }
-    }
+    //Autonomous
+    public static String autoMode = "";
 
-    public void resetDriveEncoders() {
-        robotMap.leftFrontTalon.setSelectedSensorPosition(0);
-        robotMap.rightFrontTalon.setSelectedSensorPosition(0);
-    }
+    //pathfinder
+    public static double[] leftPos = {};
+    public static double[] leftVel = {};
+    public static double[] leftAcc = {};
+    public static double[] rightPos = {};
+    public static double[] rightVel = {};
+    public static double[] rightAcc = {};
 
-    public void getDriveTicks() {
-        Constants.leftDriveTicks = robotMap.leftFrontTalon.getSelectedSensorPosition();
-        Constants.rightDriveTicks = robotMap.rightFrontTalon.getSelectedSensorPosition();
-    }
-
-    public void calcDriveDist() {
-        Constants.leftDriveDist = (Constants.leftDriveTicks/Constants.leftDriveRatio) * 2 * Math.PI * Constants.driveWheelRadius;
-        Constants.rightDriveDist = (Constants.rightDriveTicks/Constants.rightDriveRatio) * 2 * Math.PI * Constants.driveWheelRadius;
-    }
-*/
 }

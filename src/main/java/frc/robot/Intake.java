@@ -1,11 +1,25 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Timer;
+
 public class Intake {
 
     RobotMap robotMap;
+    boolean ratchetteEngaged, intakeDown;
+    Timer buttonTimer, foldTimer;
 
-    public Intake(RobotMap robotMap) {
-        this.robotMap = robotMap;
+    public Intake() {
+
+        robotMap = RobotMap.getRobotMap();
+
+        ratchetteEngaged = false;
+        intakeDown = false;
+
+        buttonTimer = new Timer();
+        buttonTimer.start();
+
+        foldTimer = new Timer();
+        foldTimer.stop();
     }
 
     /**
@@ -13,12 +27,22 @@ public class Intake {
      */
     public void periodic() {
 
-        if(robotMap.getRightTrigger() >= 0.75) {
-            spinIntake();
-        } else if(robotMap.rightBumper.get()) {
-            releaseBall();
+        if(robotMap.buttonY.get() && buttonTimer.get() > 0.2) {
+            moveIntake(true);
+        }
+        
+        if(!ratchetteEngaged) {
+
+            if(robotMap.getRightTrigger() >= 0.75) {
+                spinIntake();
+            } else if(robotMap.rightBumper.get()) {
+                releaseBall();
+            } else {
+                stop();
+            }
+
         } else {
-            stop();
+            moveIntake(false);
         }
 
     }
@@ -48,10 +72,10 @@ public class Intake {
      */
     public void unfoldIntake() {
 
-        if(robotMap.intakeLock.get() >= 0.9) {
-            robotMap.intakeVictor.set(Constants.intakeFoldSpeed);
+        if(robotMap.intakeLock.getAngle() >= 70) {
+            robotMap.intakeVictor.set(Constants.intakeFoldSpeed/2);
         } else {
-            robotMap.intakeLock.set(1);
+            robotMap.intakeLock.setAngle(75);
         }
 
     }
@@ -61,12 +85,56 @@ public class Intake {
      */
     public void foldIntake() {
 
-        if(robotMap.intakeLock.get() >= 0.9) {
+        boolean intakeDownLocal = robotMap.intakeCheck.get(); //I deleted !
+
+        robotMap.intakeLock.setAngle(75);
+
+        if(robotMap.intakeLock.getAngle() >= 70 && intakeDownLocal) { //I deleted !
             robotMap.intakeVictor.set(-Constants.intakeFoldSpeed);
+        } else if(!intakeDownLocal) { //I deleted !
+            robotMap.intakeVictor.set(0);
+            releaseServo();
         } else {
-            robotMap.intakeLock.set(1);
+            robotMap.intakeLock.setAngle(75);
         }
         
+    }
+
+    public void moveIntake(boolean start) {
+
+        if(start) {
+            foldTimer.reset();
+            foldTimer.start();
+            ratchetteEngaged = true;
+            intakeDown = robotMap.intakeCheck.get();
+        }
+
+        if((!intakeDown)&&foldTimer.get() <= 1&&ratchetteEngaged) {
+            unfoldIntake();
+            Diagnostics.intakeDown = true;
+        } else if(intakeDown&&robotMap.intakeCheck.get()&&ratchetteEngaged) {
+            foldIntake();
+            Diagnostics.intakeDown = false;
+        } else if(!intakeDown&&foldTimer.get() > 0.125){
+            releaseServo();
+        } else {
+            releaseServo();
+            stop();
+        }
+    
+    }
+
+    /**
+     * releases servo
+     */
+    public void releaseServo() {
+        if(robotMap.intakeLock.getAngle() <= 30) {
+            ratchetteEngaged = false;
+            robotMap.intakeLock.set(robotMap.intakeLock.get());
+            System.out.println(robotMap.intakeLock.getAngle());
+        } else {
+            robotMap.intakeLock.setAngle(30);
+        }
     }
 
     /**

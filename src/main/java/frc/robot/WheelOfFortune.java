@@ -27,14 +27,14 @@ public class WheelOfFortune {
     public void spinWheel() {
         String initialColor = "";
         String currentColor = "";
-        initialColor = Constants.color; //sets the initialColor value to the color that is presently on the wheel
+        initialColor = Diagnostics.color; //sets the initialColor value to the color that is presently on the wheel
 
         if(numberOfHalfRotations < 6){//number of half rotations is lower than 6, because the wheel should rotate 3 to 5 times
             //TODO insert code to: spin Wheel
-            if(Constants.color.equals(initialColor) && !currentColor.equals(initialColor)) {//this code will run when the color sensor detects the initial color the second condition guarantees that it runs only once*/
+            if(Diagnostics.color.equals(initialColor) && !currentColor.equals(initialColor)) {//this code will run when the color sensor detects the initial color the second condition guarantees that it runs only once*/
                 numberOfHalfRotations ++;
             }
-            currentColor = Constants.color;//once the color sensor detects a color other than the initial one, the currentColor variable will change so that the previous block of code can run*/
+            currentColor = Diagnostics.color;//once the color sensor detects a color other than the initial one, the currentColor variable will change so that the previous block of code can run*/
         }
 
         }
