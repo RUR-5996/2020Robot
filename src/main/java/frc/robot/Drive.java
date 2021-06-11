@@ -73,21 +73,22 @@ public class Drive {
      */
     public void setDriveMode() {
 
-        if(( robotMap.buttonB.get() || robotMap.logitechFour.get() || robotMap.buttonX.get() ) && buttonPress.get() >= 0.25) {
-
-            if(Diagnostics.driveMode.equals("manual")) {
+        if((robotMap.buttonB.get() || robotMap.logitechFour.get()) && buttonPress.get() >= 0.25) {
                 Diagnostics.driveMode = "assisted";
                 limelightTurn.setTarget(0);
+
+                buttonPress.reset();
+                buttonPress.start();
                 //Robot.climber.aim();
-            } else {
+        }else if(robotMap.buttonX.get() && buttonPress.get() >= 0.25) {
                 Diagnostics.driveMode = "manual";
                 //Robot.climber.aimReset();
-            }
 
-            buttonPress.reset();
-            buttonPress.start();
-
+                buttonPress.reset();
+                buttonPress.start();
         }
+
+            
 
     }
 

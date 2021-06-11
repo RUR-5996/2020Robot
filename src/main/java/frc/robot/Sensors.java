@@ -13,9 +13,6 @@ public class Sensors {
     private static AHRS ahrs;
     private static RobotMap robotMap;
     private static double targets, xOffset, yOffset, area, distance;
-    //TODO move to RobotMap after testing
-    private static final AnalogInput ultrasonicIntakeLeft = new AnalogInput(0);
-    private static final AnalogInput ultrasonicIntakeRight = new AnalogInput(1);
 
     public Sensors() {
         robotMap = RobotMap.getRobotMap();
@@ -135,13 +132,12 @@ public class Sensors {
         SmartDashboard.putNumber("Limelight yOffset", yOffset);
         SmartDashboard.putNumber("Limelight area", area);
         SmartDashboard.putNumber("Gyro Angle", getAngle());
-        SmartDashboard.putBoolean("Shooter In Range", distance <= 11);
 
-        SmartDashboard.putNumber("Ultrasonic Intake Left Dist", getUltrasonicDistance(ultrasonicIntakeLeft));
-        SmartDashboard.putNumber("Ultrasonic Intake Right Dist", getUltrasonicDistance(ultrasonicIntakeRight));
+        SmartDashboard.putNumber("Ultrasonic Intake Left Dist", getUltrasonicDistance(robotMap.ultrasonicIntakeLeft));
+        SmartDashboard.putNumber("Ultrasonic Intake Right Dist", getUltrasonicDistance(robotMap.ultrasonicIntakeRight));
 
-        Diagnostics.leftIntakeDist = getUltrasonicDistance(ultrasonicIntakeLeft);
-        Diagnostics.rightIntakeDist = getUltrasonicDistance(ultrasonicIntakeRight);
+        Diagnostics.leftIntakeDist = getUltrasonicDistance(robotMap.ultrasonicIntakeLeft);
+        Diagnostics.rightIntakeDist = getUltrasonicDistance(robotMap.ultrasonicIntakeRight);
 
         SmartDashboard.putNumber("shooter stator current", robotMap.shooterBottom.getStatorCurrent()); //test could be used to count balls
         SmartDashboard.putNumber("shooter supply current", robotMap.shooterBottom.getSupplyCurrent());
@@ -152,5 +148,6 @@ public class Sensors {
         SmartDashboard.putNumber("right drive distance", Diagnostics.rightDriveDist);
 
         SmartDashboard.putNumber("skew", Diagnostics.skew);
+        SmartDashboard.putNumber("tx", Diagnostics.xOffset);
     }
 }

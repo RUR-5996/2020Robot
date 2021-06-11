@@ -36,6 +36,8 @@ public class RobotMap {
     public static final WPI_VictorSPX intakeVictor = new WPI_VictorSPX(6);
     public static final Servo intakeLock = new Servo(1);
     public static final DigitalInput intakeCheck = new DigitalInput(0);
+    public static final AnalogInput ultrasonicIntakeLeft = new AnalogInput(0);
+    public static final AnalogInput ultrasonicIntakeRight = new AnalogInput(1);
     
     public static final WPI_TalonSRX shooterTop = new WPI_TalonSRX(1);
     public static final WPI_TalonSRX shooterBottom = new WPI_TalonSRX(2);

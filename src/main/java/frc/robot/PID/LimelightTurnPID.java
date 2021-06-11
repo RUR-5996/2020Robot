@@ -29,7 +29,8 @@ public class LimelightTurnPID {
         this.setpoint = setpoint;
     }
 
-    public double pidGet() { //TODO lock the target and make a gyro turn based off LL - backup
+    public double pidGet() { 
+
         checkTarget();
         double speed = MathUtil.clamp(turnController.calculate(Diagnostics.xOffset, setpoint), -Constants.turnSpeedLL, Constants.turnSpeedLL);
         return speed;

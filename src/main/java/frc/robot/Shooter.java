@@ -18,12 +18,12 @@ public class Shooter {
 
     RobotMap robotMap;
     Timer shooterStartUp;
-    private double servoAngle = 0;
+    //private double servoAngle = 0;
 
     public Shooter() {
         this.robotMap = RobotMap.getRobotMap();
 
-        //Do we need the following line?
+        //Do we need the following line? - probably no
         //servoAngle = robotMap.ballStop.getAngle();
 
         shooterStartUp = new Timer();
@@ -58,7 +58,7 @@ public class Shooter {
             shooterStartUp.start();
         }
         robotMap.shooterTop.set(Diagnostics.shooterSpeed);
-        robotMap.shooterBottom.set(1.25*Diagnostics.shooterSpeed);
+        robotMap.shooterBottom.set(Diagnostics.shooterSpeed);
     }
 
     /**
@@ -100,6 +100,6 @@ public class Shooter {
     }
 
     public void closeShooter() {
-        robotMap.ballStop.setAngle(55);
+        robotMap.ballStop.setAngle(68);
     }
 }
