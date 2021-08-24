@@ -1,7 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.PID.LimelightTurnPID;
 
 public class Drive {
@@ -32,7 +31,9 @@ public class Drive {
 
         setDriveMode();
 
-        if((Diagnostics.leftIntakeDist <= 40 || Diagnostics.rightIntakeDist <= 40) && Diagnostics.intakeDown) { //test if the resolution is good enough to see 20cm
+        //Dropped the intake ultrasonics, MUST BE CAREFUL AROUND WALLS
+
+        /*if((Diagnostics.leftIntakeDist <= 40 || Diagnostics.rightIntakeDist <= 40) && Diagnostics.intakeDown) { //test if the resolution is good enough to see 20cm
 
             if(Diagnostics.driveMode.equals("manual")) {
 
@@ -48,7 +49,7 @@ public class Drive {
                 System.out.println("Drive mode error");
             }
 
-        } else {
+        } else {*/
 
             if(Diagnostics.driveMode.equals("manual")) {
 
@@ -58,13 +59,17 @@ public class Drive {
                     drive();
                 }
 
-            } else if (Diagnostics.driveMode.equals("assisted")) {
-                assistedDrive();
+            } else if (Diagnostics.driveMode.equals("assisted")) { //gutted the assisted drive thing, turning is done by turret, buttoning remains
+                if(robotMap.leftJoystick.get() || robotMap.rightJoystick.get()) {
+                    fasterDrive();
+                } else {
+                    drive();
+                }
             } else {
                 System.out.println("Drive mode error");
             }
 
-        }
+        //}
         
     }
 
@@ -75,7 +80,7 @@ public class Drive {
 
         if((robotMap.buttonB.get() || robotMap.logitechFour.get()) && buttonPress.get() >= 0.25) {
                 Diagnostics.driveMode = "assisted";
-                limelightTurn.setTarget(0);
+                limelightTurn.setTarget(0); //keep!
 
                 buttonPress.reset();
                 buttonPress.start();
@@ -87,16 +92,14 @@ public class Drive {
                 buttonPress.reset();
                 buttonPress.start();
         }
-
-            
-
+          
     }
 
     /**
      * slower driving for regular operations
      */
     public void drive() {
-        robotMap.drive.arcadeDrive(0.65 * robotMap.getLeftY(), 0.65 * robotMap.getRightX());
+        robotMap.drive.arcadeDrive(0.65 * robotMap.getLeftY(), 0.65 * robotMap.getRightX()); //might get slower with people around!
     }
 
     /**
@@ -106,7 +109,7 @@ public class Drive {
         robotMap.drive.arcadeDrive(0.8 * robotMap.getLeftY(), 0.8 * robotMap.getRightX()); //Not more than 0.85!
     }
 
-    public void intakeProtectDrive() {
+    public void intakeProtectDrive() { //not in use ATM
         if(robotMap.getLeftY() > 0) {
             robotMap.drive.arcadeDrive(0, 0.65 * robotMap.getRightX());
         } else {
@@ -114,7 +117,7 @@ public class Drive {
         }
     }
 
-    public void intakeProtectFasterDrive() {
+    public void intakeProtectFasterDrive() { //not in use ATM
         if(robotMap.getLeftY() > 0) {
             robotMap.drive.arcadeDrive(0, 0.8 * robotMap.getRightX());
         } else {
@@ -122,7 +125,7 @@ public class Drive {
         }
     }
 
-    public void intakeProtectAssistedDrive() {
+    public void intakeProtectAssistedDrive() { //not in use ATM
         if(robotMap.getLeftY() > 0) {
             robotMap.drive.arcadeDrive(0, -limelightTurn.pidGet());
         } else {
@@ -133,74 +136,8 @@ public class Drive {
     /**
      * vision-assisted drive: Driver can operate fw/bw, turning is done by LL
      */
-    public void assistedDrive() {
+    public void assistedDrive() { //not in use ATM
         robotMap.drive.arcadeDrive(0.65 * robotMap.getLeftY(), -limelightTurn.pidGet());
     }
 
-
-
-
-    //the magic happens here - autonomous driving, will be commented later after testing
-
-    public void setupAuto() {
-        autoStep = 0;
-        lastErrorL = 0;
-        lastErrorR = 0;
-    }
-
-    public void autoDrive() { 
-
-        if(autoStep < Diagnostics.leftPos.length)
-        {
-            errorL = Diagnostics.leftPos[autoStep] - Diagnostics.leftDriveDist;
-            outputL = Constants.autokP * errorL + Constants.autokD * ((errorL - lastErrorL) / Diagnostics.leftVel[autoStep]) + (Constants.autokV * Diagnostics.leftVel[autoStep] + Constants.autokA * Diagnostics.leftAcc[autoStep]);
-            lastErrorL = errorL;
-
-            errorR = Diagnostics.rightPos[autoStep] - Diagnostics.rightDriveDist;
-            outputR = Constants.autokP * errorR + Constants.autokD * ((errorR - lastErrorR) / Diagnostics.rightVel[autoStep]) + (Constants.autokV * Diagnostics.rightVel[autoStep] + Constants.autokA * Diagnostics.rightAcc[autoStep]);
-            lastErrorR = errorR;
-            autoStep++;
-
-            SmartDashboard.putNumber("leftOutput", outputL);
-            SmartDashboard.putNumber("rightOutput", outputR);
-        }
-        else
-        {
-            System.out.println("finished or empty array");
-            outputL = 0;
-            outputR = 0;
-        }
-        
-        robotMap.drive.tankDrive(outputL, outputR);
-
-    }
-
-    public void autoDriveBack() {
-
-        if(autoStep < Diagnostics.leftPos.length)
-        {
-            errorL = Diagnostics.leftPos[autoStep] - Diagnostics.leftDriveDist;
-            outputL = Constants.autokP * errorL + Constants.autokD * ((errorL - lastErrorL) / Diagnostics.leftVel[autoStep]) + (Constants.autokV * Diagnostics.leftVel[autoStep] + Constants.autokA * Diagnostics.leftAcc[autoStep]);
-            outputL = -outputL;
-            lastErrorL = errorL;
-
-            errorR = Diagnostics.rightPos[autoStep] - Diagnostics.rightDriveDist;
-            outputR = Constants.autokP * errorR + Constants.autokD * ((errorR - lastErrorR) / Diagnostics.rightVel[autoStep]) + (Constants.autokV * Diagnostics.rightVel[autoStep] + Constants.autokA * Diagnostics.rightAcc[autoStep]);
-            outputR = -outputR;
-            lastErrorR = errorR;
-            autoStep++;
-
-            SmartDashboard.putNumber("leftOutput", outputL);
-            SmartDashboard.putNumber("rightOutput", outputR);
-        }
-        else
-        {
-            System.out.println("finished or empty array");
-            outputL = 0;
-            outputR = 0;
-        }
-
-        robotMap.drive.tankDrive(outputL, outputR);
-
-    }
 }

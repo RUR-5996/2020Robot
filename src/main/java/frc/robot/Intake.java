@@ -2,6 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Timer;
 
+//TODO this shit is too complex to be rewriten
+
 public class Intake {
 
     RobotMap robotMap;

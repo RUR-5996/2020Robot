@@ -18,26 +18,26 @@ public class Climber {
         }
     }
 
-    public void aim() {
-        if(robotMap.touchlessAim.getVoltage() > 4 || Diagnostics.climberDown) {
+    public void aim() { //silenced not to cause harm
+        /*if(robotMap.touchlessAim.getVoltage() > 4 || Diagnostics.climberDown) {
             climbUp();
         } else if(robotMap.touchlessAim.getVoltage() < 0.5) {
             stop();
             Diagnostics.climberAiming = true;
         } else {
             stop();
-        }
+        }*/
     }
 
-    public void aimReset() {
-        if(Diagnostics.climberAiming || RobotMap.touchlessAim.getVoltage() > 4) {
+    public void aimReset() { //silenced for now
+        /*if(Diagnostics.climberAiming || robotMap.touchlessAim.getVoltage() > 4) {
             climbDown();
         } else if(robotMap.touchlessAim.getVoltage() < 0.5) {
             stop();
             Diagnostics.climberAiming = false;
         } else {
             stop();
-        }
+        }*/
     }
 
     public void climbDown() {

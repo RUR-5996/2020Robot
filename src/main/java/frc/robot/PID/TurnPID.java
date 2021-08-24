@@ -8,6 +8,8 @@ import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class TurnPID {
 
+    //Shouldn't be in use ATM
+
     RobotMap robotMap;
     private double setpoint;
     private PIDController turnController = new PIDController(Constants.turnKP, Constants.turnKI, Constants.turnKD);
@@ -51,15 +53,15 @@ public class TurnPID {
     }
 
     public void checkTarget() {
-        if(Math.abs(turnController.getPositionError()) <= 0.15 && targeting.get() == 0) {
+        if(Math.abs(turnController.getPositionError()) <= 2 && targeting.get() == 0) {
             targeting.start();
             onTarget = false;
-        } else if(Math.abs(turnController.getPositionError()) > 0.15 && targeting.get() < 0.5) {
+        } else if(Math.abs(turnController.getPositionError()) > 2 && targeting.get() < 0.5) {
             targeting.reset();
             onTarget = false;
-        } else if(Math.abs(turnController.getPositionError()) <= 0.15 && targeting.get() < 0.5) {
+        } else if(Math.abs(turnController.getPositionError()) <= 2 && targeting.get() < 0.5) {
             onTarget = false;
-        } else if(Math.abs(turnController.getPositionError()) <= 0.15 && targeting.get() >= 0.5) {
+        } else if(Math.abs(turnController.getPositionError()) <= 2 && targeting.get() >= 0.5) {
             onTarget = true;
         }
     }

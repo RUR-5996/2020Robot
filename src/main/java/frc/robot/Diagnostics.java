@@ -14,7 +14,8 @@ public class Diagnostics {
     public static double distanceLL = 0;
 
     //Shooter
-    public static double shooterSpeed = 0.60;
+    public static double shooterSpeed = 0.92; //Should be in constants, ignore it for now
+    public static int turretTicks = 0;
 
     //Drive
     public static double leftDriveTicks = 0;
@@ -22,6 +23,7 @@ public class Diagnostics {
     public static double leftDriveDist = 0;
     public static double rightDriveDist = 0;
     public static String driveMode = "manual"; //manual or assisted
+    public static double gyroAngle = 0;
 
     //Climber
     public static boolean climberUp = false;

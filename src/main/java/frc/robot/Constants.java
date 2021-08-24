@@ -24,6 +24,9 @@ public class Constants {
     //Shooter constants
     public static final double shooterSpeedRatio = 0; //converts distance values from LL into shooter speed
     public static final double autoShooterSpeed = 45;
+    public static final int turretCalibrationPosition = 500; //TODO find the position
+    public static final int maxTurretTicks = 1000; //TODO find the right position
+    public static final int maxTurretAngle = 180; //TODo find the right angle
 
     //Intake constants
     public static final double intakeFoldSpeed = 0.2;
@@ -43,7 +46,7 @@ public class Constants {
     public static final double rightDriveRatio = 0; //ticks per rot
     public static final double driveWheelRadius = 0.1524; //meters
 
-    public static final double turnKP = 0.0;
+    public static final double turnKP = 0.08; //a rough guess
     public static final double turnKI = 0.0;
     public static final double turnKD = 0.0;
     public static final double turnSpeed = 0.65; //motor output multiplier of turn PID
@@ -52,6 +55,11 @@ public class Constants {
     public static final double turnKILL = 0.0;
     public static final double turnKDLL = 0.0;
     public static final double turnSpeedLL = 0.5; //motor output multiplier of turn PID
+
+    public static final double turretKP = 0.08;
+    public static final double turretKI = 0.0;
+    public static final double turretKD = 0.0;
+    public static final double turretSpeed = 0.5;
 
     public static final double driveKP = 0.08;
     public static final double driveKI = 0.0;

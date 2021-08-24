@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -16,56 +15,67 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Victor;
+
+//TODO count smart motor controllers and hook up some dumb
 
 public class RobotMap {
 
     private static RobotMap robotMap;
-    public static final WPI_VictorSPX leftFrontVictor = new WPI_VictorSPX(0);
-    public static final WPI_VictorSPX leftBackVictor = new WPI_VictorSPX(1);
-    public static final WPI_VictorSPX leftCenterVictor = new WPI_VictorSPX(2);
-    public static final WPI_VictorSPX rightFrontVictor = new WPI_VictorSPX(3);
-    public static final WPI_VictorSPX rightBackVictor = new WPI_VictorSPX(4);
-    public static final WPI_VictorSPX rightCenterVictor = new WPI_VictorSPX(5);
-    public static final SpeedControllerGroup leftGroup = new SpeedControllerGroup(leftFrontVictor, leftBackVictor, leftCenterVictor);
-    public static final SpeedControllerGroup rightGroup = new SpeedControllerGroup(rightFrontVictor, rightBackVictor, rightCenterVictor);
-    public static final DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup);
+    public final WPI_VictorSPX leftFrontVictor = new WPI_VictorSPX(0);
+    public final WPI_VictorSPX leftBackVictor = new WPI_VictorSPX(1);
+    public final WPI_VictorSPX leftCenterVictor = new WPI_VictorSPX(2);
+    public final WPI_VictorSPX rightFrontVictor = new WPI_VictorSPX(3);
+    public final WPI_VictorSPX rightBackVictor = new WPI_VictorSPX(4);
+    public final WPI_VictorSPX rightCenterVictor = new WPI_VictorSPX(5);
+    public final SpeedControllerGroup leftGroup = new SpeedControllerGroup(leftFrontVictor, leftBackVictor, leftCenterVictor);
+    public final SpeedControllerGroup rightGroup = new SpeedControllerGroup(rightFrontVictor, rightBackVictor, rightCenterVictor);
+    public final DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup);
 
-    public static final WPI_TalonSRX climberLeft = new WPI_TalonSRX(4);
-    public static final WPI_TalonSRX climberRight = new WPI_TalonSRX(3);
+    public final WPI_TalonSRX climberLeft = new WPI_TalonSRX(4); //has a drive encoder inserted
+    public final WPI_TalonSRX climberRight = new WPI_TalonSRX(3); //has a drive encoder inserted
 
-    public static final WPI_VictorSPX intakeVictor = new WPI_VictorSPX(6);
-    public static final Servo intakeLock = new Servo(1);
-    public static final DigitalInput intakeCheck = new DigitalInput(0);
-    public static final AnalogInput ultrasonicIntakeLeft = new AnalogInput(0);
-    public static final AnalogInput ultrasonicIntakeRight = new AnalogInput(1);
+    public final WPI_VictorSPX intakeVictor = new WPI_VictorSPX(7);
+    public final WPI_VictorSPX intakeTurner = new WPI_VictorSPX(6); //Probably should be smart
+    public final Servo intakeLock = new Servo(1);
+    public final DigitalInput intakeCheck = new DigitalInput(1); //Mount somewhere on gearbox
+    public final AnalogInput ultrasonicIntakeLeft = new AnalogInput(0); //not in use
+    public final AnalogInput ultrasonicIntakeRight = new AnalogInput(1); //not in use
     
-    public static final WPI_TalonSRX shooterTop = new WPI_TalonSRX(1);
-    public static final WPI_TalonSRX shooterBottom = new WPI_TalonSRX(2);
-    public static final SpeedControllerGroup shooterGroup = new SpeedControllerGroup(shooterTop, shooterBottom);
-    public static final Servo ballStop = new Servo(0);
+    public final WPI_TalonSRX shooterTop = new WPI_TalonSRX(1);
+    public final WPI_TalonSRX shooterBottom = new WPI_TalonSRX(2);
+    public final SpeedControllerGroup shooterGroup = new SpeedControllerGroup(shooterTop, shooterBottom); //not uset ATM
+    public final WPI_VictorSPX turretTurner = new WPI_VictorSPX(8); //can be dumb
+    public final DigitalInput turretHome = new DigitalInput(9);
+    public final DigitalInput turretLimit = new DigitalInput(8); //TODO check all the numbering
+    public final Encoder turretEncoder = new Encoder(4, 5);
+    public final Victor feeder = new Victor(8);
+    //public final Servo ballStop = new Servo(0); //not in use ATM
+    public final Victor mixer = new Victor(9);
 
-    public static final AnalogInput touchlessAim = new AnalogInput(3); //change port
+    //public final AnalogInput touchlessAim = new AnalogInput(3); //change port - plugged out
 
     public final AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
-    public static final XboxController controller = new XboxController(0);
-    public static final Joystick logitech = new Joystick(1);
+    public final XboxController controller = new XboxController(0);
+    public final Joystick logitech = new Joystick(1); //probably not going to be used
 
-    public static final Button buttonA = new JoystickButton(controller, 1);
-    public static final Button buttonB = new JoystickButton(controller, 2);
-    public static final Button buttonX = new JoystickButton(controller, 3);
-    public static final Button buttonY = new JoystickButton(controller, 4);
-    public static final Button leftBumper = new JoystickButton(controller, 5);
-    public static final Button rightBumper = new JoystickButton(controller, 6);
-    public static final Button stop = new JoystickButton(controller, 7);
-    public static final Button start = new JoystickButton(controller, 8);
-    public static final Button leftJoystick = new JoystickButton(controller, 9);
-    public static final Button rightJoystick = new JoystickButton(controller, 10);
+    public final Button buttonA = new JoystickButton(controller, 1);
+    public final Button buttonB = new JoystickButton(controller, 2);
+    public final Button buttonX = new JoystickButton(controller, 3);
+    public final Button buttonY = new JoystickButton(controller, 4);
+    public final Button leftBumper = new JoystickButton(controller, 5);
+    public final Button rightBumper = new JoystickButton(controller, 6);
+    public final Button stop = new JoystickButton(controller, 7);
+    public final Button start = new JoystickButton(controller, 8);
+    public final Button leftJoystick = new JoystickButton(controller, 9);
+    public final Button rightJoystick = new JoystickButton(controller, 10);
 
-    public static final Button logitechTrigger = new JoystickButton(logitech, 1);
-    public static final Button logitechTwo = new JoystickButton(logitech, 2);
-    public static final Button logitechFour = new JoystickButton(logitech, 4);
-    public static final Button logitechFive = new JoystickButton(logitech, 5);
+    public final Button logitechTrigger = new JoystickButton(logitech, 1);
+    public final Button logitechTwo = new JoystickButton(logitech, 2);
+    public final Button logitechFour = new JoystickButton(logitech, 4);
+    public final Button logitechFive = new JoystickButton(logitech, 5);
 
     private RobotMap() {  
         setupDrive(leftFrontVictor);
@@ -76,6 +86,8 @@ public class RobotMap {
         setupDrive(rightBackVictor);
 
         setupVictor(intakeVictor);
+        setupVictor(intakeTurner);
+        setupVictor(turretTurner);
 
         setupShooter(shooterBottom);
         setupShooter(shooterTop);
@@ -96,7 +108,6 @@ public class RobotMap {
         talon.configContinuousCurrentLimit(30, Constants.timeoutMs);
         talon.configPeakCurrentLimit(30, Constants.timeoutMs);
         talon.configPeakCurrentDuration(200, Constants.timeoutMs);
-        talon.configOpenloopRamp(0.25);
         talon.configOpenloopRamp(0.25);
     }
 
@@ -133,7 +144,6 @@ public class RobotMap {
         talon.configContinuousCurrentLimit(30, Constants.timeoutMs);
         talon.configPeakCurrentLimit(30, Constants.timeoutMs);
         talon.configPeakCurrentDuration(200, Constants.timeoutMs);
-        talon.configOpenloopRamp(0.25);
         talon.configOpenloopRamp(0.25);
     }
 

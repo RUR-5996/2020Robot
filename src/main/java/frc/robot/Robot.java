@@ -20,11 +20,10 @@ public class Robot extends TimedRobot {
   public static RobotMap robotMap;
   public static Drive drive;
   public static Shooter shooter;
-  public static Intake intake;
+  public static NewIntake intake;
   public static Climber climber;
   public static Sensors sensors;
   public static Diagnostics diagnostics;
-  public static TransferData transferData;
 
   /**
    * Initialization code.
@@ -37,17 +36,15 @@ public class Robot extends TimedRobot {
 
     drive = new Drive();
 
-    intake = new Intake();
+    intake = new NewIntake();
 
-    climber = new Climber();
+    climber = new Climber(); //done
 
     shooter = new Shooter();
 
     sensors = new Sensors();
 
-    transferData = new TransferData();
-
-    sensors.gyroInit();
+    sensors.gyroInit(); //done
 
     sensors.resetEncoders();
 
@@ -95,7 +92,7 @@ public class Robot extends TimedRobot {
 
     intake.periodic();
 
-    climber.periodic();
+    //climber.periodic(); //probably not going to be in use
     
   }
 
