@@ -99,14 +99,14 @@ public class Drive {
      * slower driving for regular operations
      */
     public void drive() {
-        robotMap.drive.arcadeDrive(0.65 * robotMap.getLeftY(), 0.65 * robotMap.getRightX()); //might get slower with people around!
+        robotMap.drive.arcadeDrive(0.65 * robotMap.getLeftY() * Diagnostics.exhibitionMultiplier, 0.65 * robotMap.getRightX() * Diagnostics.exhibitionMultiplier); //might get slower with people around!
     }
 
     /**
      * faster driving for full-court driving
      */
     public void fasterDrive() {
-        robotMap.drive.arcadeDrive(0.8 * robotMap.getLeftY(), 0.8 * robotMap.getRightX()); //Not more than 0.85!
+        robotMap.drive.arcadeDrive(0.8 * robotMap.getLeftY() * Diagnostics.exhibitionMultiplier, 0.8 * robotMap.getRightX() * Diagnostics.exhibitionMultiplier); //Not more than 0.85!
     }
 
     public void intakeProtectDrive() { //not in use ATM

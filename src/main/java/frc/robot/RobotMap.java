@@ -221,12 +221,16 @@ public class RobotMap {
         return Math.abs(deadzone(controller.getTriggerAxis(GenericHID.Hand.kLeft)));
     }
 
-    public double getLogitechY() {
+    public double getLogitechY() { //???
         return -deadzone(logitech.getY());
     }
 
     public double getLogitechX() {
         return deadzone(logitech.getX());
+    }
+
+    public double getLogitechZ() {
+        return deadzone(logitech.getZ());
     }
 
 }

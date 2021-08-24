@@ -146,7 +146,7 @@ public class Shooter {
     }
 
     public void manualTurret() {
-        robotMap.turretTurner.set(0.4 * robotMap.getLogitechX());
+        robotMap.turretTurner.set(0.4 * robotMap.getLogitechX() * Diagnostics.exhibitionMultiplier);
     }
 
     public void closeShooter() { //might not be needed
@@ -237,6 +237,6 @@ public class Shooter {
     }
 
     public void mixBalls() {
-        robotMap.mixer.set(0.2); //TODO make sure that this thing doesnt't fly off!!!
+        robotMap.mixer.set(0.8); //TODO make sure that this thing doesnt't fly off!!!
     }
 }

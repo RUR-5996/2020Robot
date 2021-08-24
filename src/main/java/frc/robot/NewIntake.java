@@ -27,20 +27,25 @@ public class NewIntake {
 
     public void periodic() {
 
-        if(robotMap.buttonY.get() && buttonTimer.get() >= 0.25 && intakeDown) {
-            liftIntake();
-            buttonTimer.reset();
-        } else if(robotMap.buttonY.get() && buttonTimer.get() >= 0.25 && !intakeDown) {
-            lowerIntake();
-            buttonTimer.reset();
-        }
-
-        if(robotMap.getRightTrigger() >= 0.75) {
-            intake();
-        } else if(robotMap.rightBumper.get()) {
-            releaseBall();
-        } else {
+        if(Diagnostics.exhibitionMultiplier < 1) {
             stop();
+        } else {
+
+            if(robotMap.buttonY.get() && buttonTimer.get() >= 0.25 && intakeDown) {
+                liftIntake();
+                buttonTimer.reset();
+            } else if(robotMap.buttonY.get() && buttonTimer.get() >= 0.25 && !intakeDown) {
+                lowerIntake();
+                buttonTimer.reset();
+            }
+
+            if(robotMap.getRightTrigger() >= 0.75) {
+                intake();
+            } else if(robotMap.rightBumper.get()) {
+                releaseBall();
+            } else {
+                stop();
+            }
         }
 
     }

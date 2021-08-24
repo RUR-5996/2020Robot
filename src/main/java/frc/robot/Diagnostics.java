@@ -2,6 +2,8 @@ package frc.robot;
 
 public class Diagnostics {
 
+    public static double exhibitionMultiplier = 1;
+
     //Intake
     public static boolean intakeDown = false;
 

@@ -134,6 +134,19 @@ public class Sensors {
         ahrs.reset();
     }
 
+
+    /**
+     * Method for specifying the speed multiplier of the robot.
+     * If the Z axis of logitech controller is lowered, it is safe to let other people handle the robot
+     */
+    public void getExhibitionMode() {
+        if(robotMap.getLogitechZ() >= 0.5) {
+            Diagnostics.exhibitionMultiplier = 1;
+        } else {
+            Diagnostics.exhibitionMultiplier = 0.5;
+        }
+    }
+
     /**
      * Method for reporting to smart dashboard.
      */
